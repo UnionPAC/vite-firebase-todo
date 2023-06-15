@@ -1,9 +1,14 @@
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Signup from "./pages/Signup";
+
 const App = () => {
   return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
+    <>
+      <ToastContainer />
+      <Signup />
+    </>
   );
-}
+};
 
 export default App;
