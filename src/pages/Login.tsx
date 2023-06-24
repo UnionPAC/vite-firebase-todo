@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleAuthProvider } from "../firebase";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
@@ -11,6 +12,9 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
+
+  console.log(currentUser);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -41,6 +45,12 @@ const Login = () => {
       toast.error(err?.message);
     }
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, [currentUser]);
 
   return (
     <>
@@ -76,6 +86,15 @@ const Login = () => {
       >
         Continue with Google
       </button>
+      <p>
+        Don't have an account?{" "}
+        <span
+          className="text-blue-500 cursor-pointer"
+          onClick={() => navigate("/signup")}
+        >
+          Signup
+        </span>
+      </p>
     </>
   );
 };

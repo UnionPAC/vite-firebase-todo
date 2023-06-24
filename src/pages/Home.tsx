@@ -29,6 +29,8 @@ const Home = () => {
     }
   };
 
+  const addTodo = () => {};
+
   useEffect(() => {
     getAllTodos();
   }, []);

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleAuthProvider } from "../firebase";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Signup = () => {
   const [userInfo, setUserInfo] = useState({
@@ -12,6 +13,9 @@ const Signup = () => {
   });
 
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
+
+  console.log(currentUser);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -26,7 +30,7 @@ const Signup = () => {
     } else {
       try {
         await createUserWithEmailAndPassword(auth, email, password);
-        toast.success("User created successfully");
+        toast.success("User created successfully", { autoClose: 3000 });
         navigate("/");
       } catch (err: any) {
         console.error(err);
@@ -44,6 +48,12 @@ const Signup = () => {
       toast.error(err?.message);
     }
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, [currentUser]);
 
   return (
     <>
@@ -89,6 +99,15 @@ const Signup = () => {
       >
         Continue with Google
       </button>
+      <p>
+        Already have an account?{" "}
+        <span
+          className="text-blue-500 cursor-pointer"
+          onClick={() => navigate("/login")}
+        >
+          Login
+        </span>
+      </p>
     </>
   );
 };
