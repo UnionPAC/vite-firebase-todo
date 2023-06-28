@@ -11,7 +11,6 @@ import App from "./App.tsx";
 import Home from "./pages/Home.tsx";
 import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
-import Profile from "./pages/Profile.tsx";
 import PrivateRoute from "./components/PrivateRoute.tsx";
 import "./index.css";
 
@@ -22,7 +21,6 @@ const router = createBrowserRouter(
       <Route path="/signup" element={<Signup />} />
       <Route path="" element={<PrivateRoute />}>
         <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
       </Route>
     </Route>
   )

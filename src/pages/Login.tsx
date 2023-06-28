@@ -1,7 +1,4 @@
-import { useState, useEffect } from "react";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, googleAuthProvider } from "../firebase";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -11,38 +8,33 @@ const Login = () => {
     password: "",
   });
 
-  const navigate = useNavigate();
-  const { currentUser } = useAuth();
-
+  const { currentUser, login, loginWithGoogle } = useAuth();
   console.log(currentUser);
+
+  const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserInfo({ ...userInfo, [name]: value });
   };
 
-  const loginWithEmailAndPassword = async () => {
-    console.log("logging in ...");
-
+  const handleLogin = (event: any) => {
+    const { name } = event.target;
     const { email, password } = userInfo;
-
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
-      console.log("login success");
-    } catch (error: any) {
+      if (name === "login") {
+        console.log("normal login");
+        login(email, password);
+        navigate("/");
+      } else if (name === "continueWithGoogle") {
+        console.log("login with google");
+        loginWithGoogle();
+        navigate("/");
+      } else {
+        throw new Error("Login Error");
+      }
+    } catch (error) {
       console.log(error);
-      toast.error(error.message);
-    }
-  };
-
-  const loginWithGoogle = async () => {
-    try {
-      await signInWithPopup(auth, googleAuthProvider);
-      navigate("/");
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err?.message);
     }
   };
 
@@ -75,13 +67,15 @@ const Login = () => {
         className="border-2 block mb-2"
       />
       <button
-        onClick={loginWithEmailAndPassword}
+        onClick={handleLogin}
+        name="login"
         className="bg-blue-600 text-white py-2 px-6 rounded border-none my-4"
       >
         Login
       </button>
       <button
-        onClick={loginWithGoogle}
+        onClick={handleLogin}
+        name="continueWithGoogle"
         className="bg-pink-600 text-white py-2 px-6 rounded border-none my-4 block"
       >
         Continue with Google

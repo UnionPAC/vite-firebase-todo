@@ -1,7 +1,4 @@
-import { useState, useEffect } from "react";
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, googleAuthProvider } from "../firebase";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -12,40 +9,33 @@ const Signup = () => {
     confirmPassword: "",
   });
 
-  const navigate = useNavigate();
-  const { currentUser } = useAuth();
-
+  const { currentUser, signup, loginWithGoogle } = useAuth();
   console.log(currentUser);
+
+  const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserInfo({ ...userInfo, [name]: value });
   };
 
-  const signupWithEmailAndPassword = async () => {
+  const handleSignup = (event: any) => {
+    const { name } = event.target;
     const { email, password, confirmPassword } = userInfo;
-
-    if (password !== confirmPassword) {
-      toast.error("Passwords don't match");
-    } else {
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        toast.success("User created successfully", { autoClose: 3000 });
-        navigate("/");
-      } catch (err: any) {
-        console.error(err);
-        toast.error(err?.message);
-      }
-    }
-  };
-
-  const loginWithGoogle = async () => {
     try {
-      await signInWithPopup(auth, googleAuthProvider);
-      navigate("/");
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err?.message);
+      if (name === "signup") {
+        console.log("normal login");
+        signup(email, password, confirmPassword);
+        navigate("/");
+      } else if (name === "continueWithGoogle") {
+        console.log("login with google");
+        loginWithGoogle();
+        navigate("/");
+      } else {
+        throw new Error("Login Error");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -88,13 +78,15 @@ const Signup = () => {
         className="border-2 block mb-2"
       />
       <button
-        onClick={signupWithEmailAndPassword}
+        onClick={handleSignup}
+        name="signup"
         className="bg-blue-600 text-white py-2 px-6 rounded border-none my-4 block"
       >
         Signup
       </button>
       <button
-        onClick={loginWithGoogle}
+        onClick={handleSignup}
+        name="continueWithGoogle"
         className="bg-pink-600 text-white py-2 px-6 rounded border-none my-4 block"
       >
         Continue with Google

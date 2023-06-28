@@ -1,19 +1,18 @@
 import { Link } from "react-router-dom";
 import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
   const user = auth.currentUser;
 
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    console.log("logging out ...");
     try {
-      await signOut(auth);
+      await logout(auth);
       navigate("/login");
-      console.log("logout success");
     } catch (err) {
       console.error(err);
     }
@@ -25,8 +24,6 @@ const Header = () => {
         <h1>Todo Ninja 🥷</h1>
         {user ? (
           <div className="space-x-10">
-            <Link to="/">Home</Link>
-            <Link to="/profile">Profile</Link>
             <button onClick={handleLogout}>Logout</button>
           </div>
         ) : (
