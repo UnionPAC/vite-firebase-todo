@@ -9,6 +9,7 @@ import {
 import { auth, googleAuthProvider } from "../firebase";
 import { useContext, createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import Spinner from "../components/Spinner";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -30,7 +31,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     password: string,
     confirmPassword: string
   ) => {
-    if (password !== confirmPassword) {
+    setLoading(true);
+    if (!email || !password) {
+      toast.error("Please enter an email and a password");
+    } else if (password !== confirmPassword) {
       toast.error("Passwords don't match");
     } else {
       try {
@@ -41,35 +45,42 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         toast.error(err?.message);
       }
     }
+    setLoading(false);
   };
 
   // login with email & password
   const login = async (email: string, password: string) => {
+    setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (err: any) {
       console.log(err);
-      toast.error(err?.message);
+      toast.error("Incorrect email or password");
     }
+    setLoading(false);
   };
 
   // login with Google account
   const loginWithGoogle = async () => {
+    setLoading(true);
     try {
       await signInWithRedirect(auth, googleAuthProvider);
     } catch (err: any) {
       console.error(err);
       toast.error(err?.message);
     }
+    setLoading(false);
   };
 
   // logout user
   const logout = async (auth: any) => {
+    setLoading(true);
     try {
       await signOut(auth);
     } catch (err) {
       console.error(err);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -85,6 +96,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}
+      {loading && <Spinner />}
     </AuthContext.Provider>
   );
 };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
@@ -9,7 +10,7 @@ const Login = () => {
   });
 
   const { currentUser, login, loginWithGoogle } = useAuth();
-  console.log(currentUser);
+  // console.log(currentUser);
 
   const navigate = useNavigate();
 
@@ -23,18 +24,15 @@ const Login = () => {
     const { email, password } = userInfo;
     try {
       if (name === "login") {
-        console.log("normal login");
         login(email, password);
-        navigate("/");
       } else if (name === "continueWithGoogle") {
-        console.log("login with google");
         loginWithGoogle();
-        navigate("/");
       } else {
         throw new Error("Login Error");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      toast.error(error);
     }
   };
 
