@@ -99,19 +99,16 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <div className="text-center">
+    <div className="w-[85%] mx-auto max-w-[500px]">
+      <div className="flex flex-col items-center xs:flex-row">
         <input
           type="text"
           placeholder="enter todo"
           value={todo}
           onChange={handleChange}
-          className="m-2 border-2 p-2 w-[350px]"
+          className="p-2 border-2 border-slate-100 rounded w-full"
         />
-        <button
-          onClick={addTodo}
-          className="bg-green-300 rounded px-4 py-2 m-2 font-semibold active:scale-95"
-        >
+        <button onClick={addTodo} className="my-6 px-6 py-2 ml-2 rounded bg-primary-btn text-white tracking-wider w-full uppercase hover:scale-105 xs:max-w-[25%]">
           ADD
         </button>
       </div>

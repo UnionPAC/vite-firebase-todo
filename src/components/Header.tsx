@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -19,20 +18,16 @@ const Header = () => {
   };
 
   return (
-    <header>
-      <nav className="flex w-[80%] mx-auto justify-between py-4">
-        <h1>Todo Ninja 🥷</h1>
-        {user ? (
-          <div className="space-x-10">
-            <button onClick={handleLogout}>Logout</button>
-          </div>
-        ) : (
-          <>
-            <ul className="space-x-10">
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Signup</Link>
-            </ul>
-          </>
+    <header className="mb-6">
+      <nav className="flex flex-col items-center  w-[90%] mx-auto mt-8 sm:flex-row sm:justify-between sm:mt-4">
+        <h1 className="text-4xl font-bold m-4">🥷 Todo Ninja </h1>
+        {user && (
+          <button
+            className="font-medium text-white bg-stone-800 mt-4 mb-6 sm:max-w-[150px] px-6 py-3 rounded tracking-wider w-[70%] max-w-[250px] uppercase hover:scale-105"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         )}
       </nav>
     </header>

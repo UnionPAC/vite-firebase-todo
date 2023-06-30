@@ -10,19 +10,20 @@ const TodoCard = (props: any) => {
     deleteTodo,
   } = props;
   return (
-    <div className="flex w-[400px] justify-between mx-auto mt-6">
+    <div className="mt-6 flex justify-between">
       {/* To-do name here */}
-      <div className="flex">
+      <div className="w-[100%] max-w-[200px] sm:max-w-[400px]">
         {!(edit === todoKey) ? (
-          <>{children}</>
+          <div>{children}</div>
         ) : (
           <input
             value={edittedValue}
             onChange={(e) => setEdittedValue(e.target.value)}
+            className="flex-1 w-full p-2"
           />
         )}
       </div>
-      <div className="space-x-6">
+      <div className="ml-4 space-x-4">
         {edit === todoKey ? (
           <i
             onClick={editTodo}

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Hind:wght@400;500&family=Montserrat:wght@500;600;800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,4 +10,24 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+:root {
+  --main-bg-color: hsl(207, 82%, 98%);
+  --main-txt-color: hsl(210, 85%, 5%);
+  --primary-btn: hsl(239, 87%, 54%);
+  --secondary-btn: hsl(134, 38%, 33%);
+  --accent-color: #65d776;
+}
+
+body {
+  font-family: "Hind", sans-serif;
+  background-color: var(--main-bg-color);
+  color: var(--main-txt-color);
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Montserrat", sans-serif;
 }

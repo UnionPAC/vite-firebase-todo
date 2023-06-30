@@ -44,8 +44,11 @@ const Signup = () => {
   }, [currentUser]);
 
   return (
-    <>
-      <label htmlFor="email">Email</label>
+    <div className="mt-12 flex flex-col items-start w-[75%] max-w-[400px] mx-auto">
+      <h2 className="text-3xl font-semibold mb-8 uppercase">Signup</h2>
+      <label htmlFor="email" className="mb-2">
+        Email
+      </label>
       <input
         type="email"
         id="email"
@@ -53,9 +56,11 @@ const Signup = () => {
         value={userInfo.email}
         placeholder="johndoe@gmail.com"
         onChange={handleChange}
-        className="border-2 block mb-2"
+        className="mb-4 p-2 w-full"
       />
-      <label htmlFor="password">Password</label>
+      <label htmlFor="password" className="mb-2">
+        Password
+      </label>
       <input
         type="password"
         id="password"
@@ -63,9 +68,11 @@ const Signup = () => {
         value={userInfo.password}
         placeholder="Enter password"
         onChange={handleChange}
-        className="border-2 block mb-2"
+        className="mb-4 p-2 w-full"
       />
-      <label htmlFor="confirmPassword">Confirm Password</label>
+      <label htmlFor="confirmPassword" className="mb-2">
+        Confirm Password
+      </label>
       <input
         type="password"
         id="confirmPassword"
@@ -73,32 +80,32 @@ const Signup = () => {
         value={userInfo.confirmPassword}
         placeholder="Confirm password"
         onChange={handleChange}
-        className="border-2 block mb-2"
+        className="mb-4 p-2 w-full"
       />
       <button
         onClick={handleSignup}
         name="signup"
-        className="bg-blue-600 text-white py-2 px-6 rounded border-none my-4 block"
+        className="text-white bg-stone-800 mt-4 mb-2 px-6 py-3 rounded tracking-wider w-full"
       >
         Signup
       </button>
       <button
         onClick={handleSignup}
         name="continueWithGoogle"
-        className="bg-pink-600 text-white py-2 px-6 rounded border-none my-4 block"
+        className="text-white bg-primary-btn mt-4 mb-2 px-6 py-3 rounded tracking-wider w-full"
       >
         Continue with Google
       </button>
-      <p>
+      <p className="text-sm mt-4 italic">
         Already have an account?{" "}
         <span
-          className="text-blue-500 cursor-pointer"
+          className="text-primary-btn ml-1 cursor-pointer"
           onClick={() => navigate("/login")}
         >
           Login
         </span>
       </p>
-    </>
+    </div>
   );
 };
 
